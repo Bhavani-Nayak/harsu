@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tere liye!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a0033;
+            color: #ffcc00;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff6600;
+        }
+        .diya {
+            width: 30px;
+            height: 30px;
+            background-color: #ff6600;
+            border-radius: 50%;
+            position: absolute;
+            animation: flicker 1s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { box-shadow: 0 0 5px #ff6600; }
+            100% { box-shadow: 0 0 10px #ff6600, 0 0 15px #ff9933; }
+        }
+        .firework {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            position: absolute;
+            animation: explode 1s ease-out infinite;
+        }
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(20); opacity: 0; }
+        }
+        .frame {
+            width: 80vw;
+            max-width: 300px;
+            height: 80vw;
+            max-height: 300px;
+            background-color: #ffcc00;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: all 0.5s ease;
+        }
+        .frame.expanded {
+            width: 90vw;
+            max-width: 600px;
+            height: 90vw;
+            max-height: 600px;
+        }
+        .gift-box-container {
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+        }
+        .gift-box {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        .gift-box-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background-color: #ff3366;
+            border: 3px solid #ffcc00;
+        }
+        .gift-box-lid {
+            transform: rotateX(-90deg);
+            transform-origin: top;
+            transition: transform 0.5s;
+        }
+        .gift-box-front, .gift-box-back, .gift-box-left, .gift-box-right {
+            border-top: none;
+        }
+        .gift-box-front  { transform: translateZ(50%); }
+        .gift-box-back   { transform: rotateY(180deg) translateZ(50%); }
+        .gift-box-left   { transform: rotateY(-90deg) translateZ(50%); }
+        .gift-box-right  { transform: rotateY(90deg) translateZ(50%); }
+        .gift-box-bottom { transform: rotateX(-90deg) translateZ(50%); }
+        .gift-box-ribbon {
+            position: absolute;
+            width: 20%;
+            height: 100%;
+            background-color: #ffcc00;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .gift-box-ribbon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 20%;
+            background-color: #ffcc00;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+        .indicator {
+            font-size: 1.2rem;
+            animation: bounce 1s infinite;
+            margin-top: 20px;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .video-frame {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: #ffcc00;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 20px #ff6600;
+            animation: appear 0.5s ease-out;
+          
+          
+        }
+        @keyframes appear {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        #birthdayVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+           
+        }
+        .balloon {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            border-radius: 50%;
+            animation: float 5s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .ribbon {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background-color: #ff6600;
+            animation: wave 3s ease-in-out infinite;
+        }
+        @keyframes wave {
+            0%, 100% { transform: skew(0deg); }
+            50% { transform: skew(5deg); }
+        }
+        .cracker {
+            position: absolute;
+            width: 4px;
+            height: 20px;
+            background-color: #ffcc00;
+            animation: spark 0.5s ease-out infinite;
+        }
+        @keyframes spark {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Birthday, Harshita!</h1>
+        <p>"🎉 May your special day be filled with joy, laughter, and unforgettable moments. Cheers to another year of amazing adventures together!"</p>
+        <div class="frame" id="frame">
+            <div class="gift-box-container">
+                <div class="gift-box" id="giftBox">
+                    <div class="gift-box-face gift-box-front"></div>
+                    <div class="gift-box-face gift-box-back"></div>
+                    <div class="gift-box-face gift-box-left"></div>
+                    <div class="gift-box-face gift-box-right"></div>
+                    <div class="gift-box-face gift-box-top gift-box-lid"></div>
+                    <div class="gift-box-face gift-box-bottom"></div>
+                    <div class="gift-box-ribbon"></div>
+                </div>
+            </div>
+            <div class="video-frame" id="videoFrame">
+                <video id="birthdayVideo" controls>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+        <div class="indicator" id="indicator">Click on this ☝️  box!</div>
+    </div>
+    <script>
+        const videos = ["harshita4", "harshita3", "harshita2", "harshita1", "harshita"];
+
+        function createDiya() {
+            const diya = document.createElement('div');
+            diya.className = 'diya';
+            diya.style.left = Math.random() * window.innerWidth + 'px';
+            diya.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(diya);
+        }
+
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = Math.random() * window.innerWidth + 'px';
+            firework.style.top = Math.random() * window.innerHeight + 'px';
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.body.appendChild(firework);
+            setTimeout(() => {
+                firework.remove();
+            }, 1000);
+        }
+
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = Math.random() * window.innerWidth + 'px';
+            balloon.style.top = Math.random() * window.innerHeight + 'px';
+            balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.body.appendChild(balloon);
+        }
+
+        function createRibbon() {
+            const ribbon = document.createElement('div');
+            ribbon.className = 'ribbon';
+            ribbon.style.left = Math.random() * window.innerWidth + 'px';
+            ribbon.style.top = Math.random() * window.innerHeight + 'px';
+            ribbon.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(ribbon);
+        }
+
+        function createCracker() {
+            const cracker = document.createElement('div');
+            cracker.className = 'cracker';
+            cracker.style.left = Math.random() * window.innerWidth + 'px';
+            cracker.style.top = Math.random() * window.innerHeight + 'px';
+            cracker.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(cracker);
+            setTimeout(() => {
+                cracker.remove();
+            }, 500);
+        }
+
+        for (let i = 0; i < 5; i++) {
+            createDiya();
+            createBalloon();
+            createRibbon();
+        }
+
+        setInterval(createFirework, 500);
+        setInterval(createCracker, 300);
+
+        const frame = document.getElementById('frame');
+        const giftBox = document.getElementById('giftBox');
+        const videoFrame = document.getElementById('videoFrame');
+        const birthdayVideo = document.getElementById('birthdayVideo');
+        const indicator = document.getElementById('indicator');
+
+        giftBox.addEventListener('click', () => {
+            const lid = giftBox.querySelector('.gift-box-lid');
+            lid.style.transform = 'rotateX(70deg)';
+            
+            setTimeout(() => {
+                frame.classList.add('expanded');
+                giftBox.style.display = 'none';
+                videoFrame.style.display = 'block';
+                const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+                birthdayVideo.src = `${randomVideo}.mp4`;
+                birthdayVideo.play();
+                indicator.style.display = 'none';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
